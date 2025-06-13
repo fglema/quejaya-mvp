@@ -2,10 +2,10 @@
 permalink: "/index.html"
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>QuejaYA.pe – We Hear You</title>
+  <title>QuejaYA.pe – Te escuchamos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
@@ -15,77 +15,75 @@ permalink: "/index.html"
     button { margin-top: 1rem; padding: 0.75rem 1.5rem; background: #d92b2b; color: #fff; border: none; cursor: pointer; }
     .complaints { margin-top: 2rem; }
     .complaints li { margin-bottom: 0.75rem; }
+    header img { max-width: 200px; height: auto; display: block; margin: 0 auto 1rem; }
   </style>
 </head>
 <body>
- <header style="text-align:center; margin-bottom:2rem;">
-  <img
-    src="/images/logo.png"
-    alt="QuejaYA.pe logo"
-    style="max-width:200px; height:auto;"
-  >
- </header> 
- <h1>QuejaYA.pe</h1>
-  <p><strong>We hear you.</strong> Submit your complaint below.</p>
+  <header>
+    <img src="/images/logo.png" alt="Logotipo de QuejaYA.pe">
+  </header>
+
+  <h1>QuejaYA.pe</h1>
+  <p><strong>Te escuchamos.</strong> Envía tu reclamo a continuación.</p>
 
   <form name="complaints" method="POST" data-netlify="true" netlify-honeypot="bot-field">
     <input type="hidden" name="form-name" value="complaints">
     <p style="display:none">
-      <label>Don’t fill this out if you’re human: <input name="bot-field"></label>
+      <label>No rellenes esto si eres humano: <input name="bot-field"></label>
     </p>
 
     <label>
-      Company:
-      <input type="text" name="company" placeholder="Company name" required>
+      Empresa:
+      <input type="text" name="company" placeholder="Nombre de la empresa" required>
     </label>
 
     <label>
-      Title:
-      <input type="text" name="title" placeholder="Brief summary" required>
+      Título:
+      <input type="text" name="title" placeholder="Breve resumen del problema" required>
     </label>
 
     <label>
-      Description:
-      <textarea name="description" rows="4" placeholder="Describe the issue" required></textarea>
+      Descripción:
+      <textarea name="description" rows="4" placeholder="Describe detalladamente tu reclamo" required></textarea>
     </label>
 
     <label>
-      Email:
-      <input type="email" name="email" placeholder="your email for follow-up" required>
+      Correo electrónico:
+      <input type="email" name="email" placeholder="Para recibir seguimiento" required>
     </label>
 
-    <button type="submit">Submit Complaint</button>
+    <button type="submit">Enviar reclamo</button>
   </form>
 
   <section class="complaints">
-    <h2>Latest Complaints</h2>
-    <ul id="complaints-list"><li>Loading…</li></ul>
+    <h2>Últimos reclamos</h2>
+    <ul id="complaints-list"><li>Cargando…</li></ul>
   </section>
 
   <script>
     const ul = document.getElementById('complaints-list');
-    ul.innerHTML = '<li>Loading…</li>';
+    ul.innerHTML = '<li>Cargando…</li>';
 
     fetch('/.netlify/functions/get-complaints')
       .then(res => {
-        if (!res.ok) throw new Error(`Status ${res.status}`);
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
         return res.json();
       })
       .then(data => {
         ul.innerHTML = '';
         if (!data.length) {
-          ul.innerHTML = '<li>No complaints submitted yet.</li>';
+          ul.innerHTML = '<li>No hay reclamos aún.</li>';
           return;
         }
         data.slice(0, 5).forEach(c => {
           const li = document.createElement('li');
-          const date = new Date(c.created_at).toLocaleDateString('en-US');
-          li.innerHTML = `<strong>${c.data.company}</strong>: ${c.data.title} <em>(${date})</em>`;
+          const fecha = new Date(c.created_at).toLocaleDateString('es-PE');
+          li.innerHTML = `<strong>${c.data.company}</strong>: ${c.data.title} <em>(${fecha})</em>`;
           ul.appendChild(li);
         });
       })
       .catch(err => {
-        ul.innerHTML = `<li style="color:red">Error loading complaints: ${err.message}</li>`;
+        ul.innerHTML = `<li style="color:red">Error al cargar reclamos: ${err.message}</li>`;
         console.error(err);
       });
   </script>
