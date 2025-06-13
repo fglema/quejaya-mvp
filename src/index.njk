@@ -8,13 +8,13 @@ permalink: "/index.html"
   <title>QuejaYA.pe – We Hear You</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { font-family:sans-serif; max-width:600px; margin:2rem auto; padding:0 1rem; }
-    h1 { color:#d92b2b; }
-    form label { display:block; margin:1rem 0; }
-    input, textarea { width:100%; padding:.5rem; box-sizing:border-box; }
-    button { background:#d92b2b; color:white; padding:.75rem 1.5rem; border:none; cursor:pointer; }
-    .complaints { margin-top:2rem; }
-    .complaints li { margin-bottom:.75rem; }
+    body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
+    h1 { color: #d92b2b; }
+    form label { display: block; margin: 1rem 0; }
+    input, textarea { width: 100%; padding: 0.5rem; box-sizing: border-box; }
+    button { margin-top: 1rem; padding: 0.75rem 1.5rem; background: #d92b2b; color: #fff; border: none; cursor: pointer; }
+    .complaints { margin-top: 2rem; }
+    .complaints li { margin-bottom: 0.75rem; }
   </style>
 </head>
 <body>
@@ -26,10 +26,27 @@ permalink: "/index.html"
     <p style="display:none">
       <label>Don’t fill this out if you’re human: <input name="bot-field"></label>
     </p>
-    <label>Company:<input type="text" name="company" required></label>
-    <label>Title:<input type="text" name="title" required></label>
-    <label>Description:<textarea name="description" rows="4" required></textarea></label>
-    <label>Email:<input type="email" name="email" required></label>
+
+    <label>
+      Company:
+      <input type="text" name="company" placeholder="Company name" required>
+    </label>
+
+    <label>
+      Title:
+      <input type="text" name="title" placeholder="Brief summary" required>
+    </label>
+
+    <label>
+      Description:
+      <textarea name="description" rows="4" placeholder="Describe the issue" required></textarea>
+    </label>
+
+    <label>
+      Email:
+      <input type="email" name="email" placeholder="your email for follow-up" required>
+    </label>
+
     <button type="submit">Submit Complaint</button>
   </form>
 
@@ -39,18 +56,31 @@ permalink: "/index.html"
   </section>
 
   <script>
+    const ul = document.getElementById('complaints-list');
+    ul.innerHTML = '<li>Loading…</li>';
+
     fetch('/.netlify/functions/get-complaints')
-      .then(r=>r.json())
-      .then(data=>{
-        const ul=document.getElementById('complaints-list');
-        ul.innerHTML='';
-        data.slice(0,5).forEach(c=>{
-          const li=document.createElement('li');
-          const date=new Date(c.created_at).toLocaleDateString('en-US');
-          li.innerHTML=\`<strong>\${c.data.company}</strong>: \${c.data.title} (\${date})\`;
+      .then(res => {
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        ul.innerHTML = '';
+        if (!data.length) {
+          ul.innerHTML = '<li>No complaints submitted yet.</li>';
+          return;
+        }
+        data.slice(0, 5).forEach(c => {
+          const li = document.createElement('li');
+          const date = new Date(c.created_at).toLocaleDateString('en-US');
+          li.innerHTML = `<strong>${c.data.company}</strong>: ${c.data.title} <em>(${date})</em>`;
           ul.appendChild(li);
         });
-      }).catch(console.error);
+      })
+      .catch(err => {
+        ul.innerHTML = `<li style="color:red">Error loading complaints: ${err.message}</li>`;
+        console.error(err);
+      });
   </script>
 </body>
 </html>
