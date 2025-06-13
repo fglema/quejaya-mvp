@@ -1,0 +1,31 @@
+{
+  "name": "quejaya-mvp",
+  "version": "1.0.0",
+  "description": "QuejaYA.pe MVP using Netlify Forms and Functions",
+  "main": "index.js",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fglema/quejaya-mvp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fglema/quejaya-mvp/issues"
+  },
+  "homepage": "https://github.com/fglema/quejaya-mvp#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "latest",
+    "node-fetch": "^3.3.2"
+  },
+  "eleventy": {
+    "dir": {
+      "input": "src",
+      "output": "_site"
+    }
+  }
+}
