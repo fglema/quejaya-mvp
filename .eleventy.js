@@ -5,8 +5,8 @@ module.exports = function(eleventyConfig) {
 
   return {
     dir: {
-      input:  "src",   // <-- your source templates live here
-      output: "_site"  // <-- Eleventy writes the build here
+      input:  "src", 
+      output: "_site"
     }
   };
 };
