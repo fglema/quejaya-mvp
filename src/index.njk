@@ -9,13 +9,13 @@ permalink: "/index.html"
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
-    h1 { color: #d92b2b; }
+    header img { max-width: 200px; height: auto; display: block; margin: 0 auto 1rem; }
+    h1 { color: #d92b2b; text-align: center; }
     form label { display: block; margin: 1rem 0; }
     input, textarea { width: 100%; padding: 0.5rem; box-sizing: border-box; }
-    button { margin-top: 1rem; padding: 0.75rem 1.5rem; background: #d92b2b; color: #fff; border: none; cursor: pointer; }
+    button { display: block; width: 100%; margin: 1.5rem 0; padding: 0.75rem; background: #d92b2b; color: white; border: none; cursor: pointer; }
     .complaints { margin-top: 2rem; }
     .complaints li { margin-bottom: 0.75rem; }
-    header img { max-width: 200px; height: auto; display: block; margin: 0 auto 1rem; }
   </style>
 </head>
 <body>
@@ -32,24 +32,58 @@ permalink: "/index.html"
       <label>No rellenes esto si eres humano: <input name="bot-field"></label>
     </p>
 
+    <!-- Datos del proveedor -->
     <label>
-      Empresa:
-      <input type="text" name="company" placeholder="Nombre de la empresa" required>
+      Razón social del proveedor:
+      <input type="text" name="provider_name" placeholder="Razón social" required>
+    </label>
+    <label>
+      RUC del proveedor:
+      <input type="text" name="provider_ruc" placeholder="RUC" required>
+    </label>
+    <label>
+      Dirección del establecimiento:
+      <input type="text" name="provider_address" placeholder="Dirección completa" required>
     </label>
 
+    <!-- Datos del consumidor -->
     <label>
-      Título:
-      <input type="text" name="title" placeholder="Breve resumen del problema" required>
+      Nombre completo:
+      <input type="text" name="consumer_name" placeholder="Tu nombre completo" required>
     </label>
-
     <label>
-      Descripción:
-      <textarea name="description" rows="4" placeholder="Describe detalladamente tu reclamo" required></textarea>
+      Documento de identidad (DNI/CE):
+      <input type="text" name="consumer_id" placeholder="Número de documento" required>
     </label>
-
+    <label>
+      Teléfono:
+      <input type="tel" name="consumer_phone" placeholder="Tu teléfono" required>
+    </label>
     <label>
       Correo electrónico:
-      <input type="email" name="email" placeholder="Para recibir seguimiento" required>
+      <input type="email" name="consumer_email" placeholder="Tu email" required>
+    </label>
+
+    <!-- Detalle del reclamo -->
+    <label>
+      Producto/Servicio:
+      <input type="text" name="product_service" placeholder="¿Producto o servicio?" required>
+    </label>
+    <label>
+      Monto reclamado (S/):
+      <input type="number" name="amount" step="0.01" placeholder="0.00" required>
+    </label>
+    <label>
+      Título del reclamo:
+      <input type="text" name="title" placeholder="Breve resumen" required>
+    </label>
+    <label>
+      Descripción detallada:
+      <textarea name="description" rows="4" placeholder="Describe tu reclamo" required></textarea>
+    </label>
+    <label>
+      Pedido concreto:
+      <input type="text" name="specific_request" placeholder="¿Qué solicitas? (reembolso, cambio…)" required>
     </label>
 
     <button type="submit">Enviar reclamo</button>
@@ -76,9 +110,9 @@ permalink: "/index.html"
           return;
         }
         data.slice(0, 5).forEach(c => {
-          const li = document.createElement('li');
           const fecha = new Date(c.created_at).toLocaleDateString('es-PE');
-          li.innerHTML = `<strong>${c.data.company}</strong>: ${c.data.title} <em>(${fecha})</em>`;
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${c.data.provider_name}</strong> – ${c.data.title} <em>(${fecha})</em>`;
           ul.appendChild(li);
         });
       })
