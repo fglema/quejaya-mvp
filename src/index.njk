@@ -1,0 +1,56 @@
+---
+layout: none
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QuejaYA.pe – We Hear You</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family:sans-serif; max-width:600px; margin:2rem auto; padding:0 1rem; }
+    h1 { color:#d92b2b; }
+    form label { display:block; margin:1rem 0; }
+    input, textarea { width:100%; padding:.5rem; box-sizing:border-box; }
+    button { background:#d92b2b; color:white; padding:.75rem 1.5rem; border:none; cursor:pointer; }
+    .complaints { margin-top:2rem; }
+    .complaints li { margin-bottom:.75rem; }
+  </style>
+</head>
+<body>
+  <h1>QuejaYA.pe</h1>
+  <p><strong>We hear you.</strong> Submit your complaint below.</p>
+
+  <form name="complaints" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="complaints">
+    <p style="display:none">
+      <label>Don’t fill this out if you’re human: <input name="bot-field"></label>
+    </p>
+    <label>Company:<input type="text" name="company" required></label>
+    <label>Title:<input type="text" name="title" required></label>
+    <label>Description:<textarea name="description" rows="4" required></textarea></label>
+    <label>Email:<input type="email" name="email" required></label>
+    <button type="submit">Submit Complaint</button>
+  </form>
+
+  <section class="complaints">
+    <h2>Latest Complaints</h2>
+    <ul id="complaints-list"><li>Loading…</li></ul>
+  </section>
+
+  <script>
+    fetch('/.netlify/functions/get-complaints')
+      .then(r=>r.json())
+      .then(data=>{
+        const ul=document.getElementById('complaints-list');
+        ul.innerHTML='';
+        data.slice(0,5).forEach(c=>{
+          const li=document.createElement('li');
+          const date=new Date(c.created_at).toLocaleDateString('en-US');
+          li.innerHTML=\`<strong>\${c.data.company}</strong>: \${c.data.title} (\${date})\`;
+          ul.appendChild(li);
+        });
+      }).catch(console.error);
+  </script>
+</body>
+</html>
