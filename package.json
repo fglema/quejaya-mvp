@@ -19,8 +19,7 @@
   },
   "homepage": "https://github.com/fglema/quejaya-mvp#readme",
   "devDependencies": {
-    "@11ty/eleventy": "latest",
-    "node-fetch": "^3.3.2"
+    "@11ty/eleventy": "latest"
   },
   "eleventy": {
     "dir": {
