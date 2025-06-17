@@ -4,4 +4,4 @@
 
 [functions]
   # Apunta aquí a la carpeta interna donde Auth0 injecta sus lambdas
-  directory = ".netlify/functions"
+  directory = "netlify/functions"
