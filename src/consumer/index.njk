@@ -1,0 +1,317 @@
+---
+permalink: "/consumer/index.html"
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>QuejaYA.pe – Enviar Reclamo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    /* RESET & BODY */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    /* HEADER/SLOGAN */
+    header { text-align: center; margin-bottom: 0.5rem; }
+    .logo img { max-width: 160px; }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      margin: -1px; padding: 0; border: 0;
+      clip: rect(0,0,0,0); overflow: hidden; white-space: nowrap;
+    }
+    h1 {
+      text-align: center;
+      color: #d92b2b;
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    /* CARD CONTAINER */
+    .wizard__container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      width: 100%;
+      max-width: 960px;
+      padding: 1rem;
+    }
+    @media (min-width: 768px) {
+      .wizard__container { padding: 2rem; }
+    }
+
+    /* LAYOUT WRAPPER */
+    .wizard__wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    /* ILLUSTRATION */
+    .wizard__illustration {
+      flex: 1 1 300px;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .wizard__illustration img {
+      max-width: 200px;
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    /* STEPPER */
+    .stepper {
+      position: relative;
+      margin: 0 auto 1rem;
+      max-width: 320px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stepper::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: #eee;
+      z-index: 0;
+    }
+    .step {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      flex: 1;
+      transition: all .2s ease;
+    }
+    .step span {
+      display: inline-block;
+      width: 28px; height: 28px;
+      line-height: 28px;
+      border: 2px solid #d92b2b;
+      border-radius: 50%;
+      background: #d92b2b;
+      color: white;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+      transition: all .2s ease;
+    }
+    .step:not(.active) span {
+      background: white;
+      color: #d92b2b;
+    }
+    .step.active span {
+      transform: scale(1.1);
+      box-shadow: 0 0 0 4px rgba(217,43,43,0.2);
+    }
+    .step small {
+      display: block;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    /* STEP CONTENT */
+    .step-content { display: none; }
+    .step-content.active { display: block; }
+
+    label {
+      display: block;
+      margin: 0.75rem 0 0.25rem;
+      font-weight: bold;
+      color: #333;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #d92b2b;
+      box-shadow: 0 0 0 3px rgba(217,43,43,0.2);
+    }
+    input.valid { border-color: #5cb85c; }
+    input.invalid { border-color: #d9534f; }
+
+    .form-error {
+      color: #d9534f;
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+
+    /* BUTTONS */
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+    }
+    .buttons button {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: filter .2s ease, box-shadow .2s ease;
+    }
+    .buttons button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(217,43,43,0.4);
+    }
+    .buttons .prev {
+      background: #ccc;
+      color: #fff;
+    }
+    .buttons .prev:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .buttons .next {
+      background: #d92b2b;
+      color: white;
+    }
+    .buttons .next:hover {
+      filter: brightness(1.05);
+    }
+
+    /* RESPONSIVE STACK */
+    @media (max-width: 768px) {
+      .wizard__wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+      .wizard__illustration {
+        order: -1;
+        width: 100%;
+        max-width: 300px;
+      }
+      .wizard__steps {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <header>
+      <a href="/" class="logo">
+        <img src="/images/logo.png" alt="QuejaYA.pe">
+        <span class="visually-hidden">QuejaYA.pe</span>
+      </a>
+    </header>
+
+    <h1>Te tomará menos de 3 minutos y nosotros nos encargamos del resto.</h1>
+    <p class="subtitle">Sigue los pasos para enviar tu reclamo.</p>
+
+    <form name="complaints" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="complaints">
+      <p style="display:none">
+        <label>No rellenes esto si eres humano: <input name="bot-field"></label>
+      </p>
+
+      <div class="wizard__container">
+        <div class="wizard__wrapper">
+          <div class="wizard__illustration">
+            <img id="wizard-img" src="/images/step1.png" alt="Ilustración paso 1: datos del proveedor">
+          </div>
+
+          <div class="wizard__steps">
+            <nav class="stepper">
+              <div class="step active"><span>1</span><small>Proveedor</small></div>
+              <div class="step"><span>2</span><small>Consumidor</small></div>
+              <div class="step"><span>3</span><small>Detalle</small></div>
+            </nav>
+
+            <div id="content-1" class="step-content active">
+              <label>Razón social:<input type="text" name="provider_name" required></label>
+              <label>RUC:<input type="text" name="provider_ruc" required></label>
+              <label>Dirección:<input type="text" name="provider_address" required></label>
+            </div>
+            <div id="content-2" class="step-content">
+              <label>Nombre completo:<input type="text" name="consumer_name" required></label>
+              <label>DNI:<input type="text" name="consumer_id" required></label>
+              <label>Teléfono:<input type="tel" name="consumer_phone" required></label>
+              <label>Correo electrónico:<input type="email" name="consumer_email" required></label>
+            </div>
+            <div id="content-3" class="step-content">
+              <label>Producto/Servicio:<input type="text" name="product_service" required></label>
+              <label>Monto (S/):<input type="number" name="amount" step="0.01" required></label>
+              <label>Título:<input type="text" name="title" required></label>
+              <label>Descripción:<textarea name="description" rows="3" required></textarea></label>
+              <label>Pedido concreto:<input type="text" name="specific_request" required></label>
+            </div>
+
+            <div class="buttons">
+              <button type="button" class="prev" id="btn-prev" disabled>Anterior</button>
+              <button type="button" class="next" id="btn-next">Siguiente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const total = 3;
+    let step = 1;
+    const imgMap = {
+      1: '/images/step1.png',
+      2: '/images/step2.png',
+      3: '/images/step3.png'
+    };
+
+    function updateWizard() {
+      document.querySelectorAll('.step').forEach((el, i) => {
+        el.classList.toggle('active', i+1 === step);
+      });
+      document.querySelectorAll('.step-content').forEach((el, i) => {
+        el.classList.toggle('active', i+1 === step);
+      });
+      document.getElementById('wizard-img').src = imgMap[step];
+      document.getElementById('btn-prev').disabled = (step === 1);
+      document.getElementById('btn-next').innerText = (step < total ? 'Siguiente' : 'Enviar reclamo');
+    }
+
+    document.querySelectorAll('input,textarea').forEach(el => {
+      el.addEventListener('blur', () => {
+        el.classList.toggle('valid', el.checkValidity());
+        el.classList.toggle('invalid', !el.checkValidity());
+      });
+    });
+
+    document.getElementById('btn-next').addEventListener('click', () => {
+      if (step < total) {
+        step++;
+        updateWizard();
+      } else {
+        document.forms['complaints'].submit();
+      }
+    });
+    document.getElementById('btn-prev').addEventListener('click', () => {
+      if (step > 1) {
+        step--;
+        updateWizard();
+      }
+    });
+  </script>
+</body>
+</html>

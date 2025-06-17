@@ -5,118 +5,97 @@ permalink: "/index.html"
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>QuejaYA.pe – Te escuchamos</title>
+  <title>QuejaYA.pe</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body { font-family:sans-serif; max-width:800px; margin:2rem auto; padding:0 1rem; }
-    header { text-align:center; margin-bottom:2rem; }
-    header img { max-width:180px; }
-    .wizard { display:flex; flex-wrap:wrap; gap:2rem; }
-    .wizard__illustration { flex:1 1 300px; text-align:center; }
-    .wizard__illustration img { max-width:100%; height:auto; }
-    .wizard__steps { flex:1 1 300px; }
-    .progress { margin-bottom:1rem; font-size:.9rem; color:#555; }
-    .progress__bar { height:6px; background:#eee; border-radius:3px; overflow:hidden; }
-    .progress__fill { height:100%; width:33.33%; background:#d92b2b; transition:width .3s; }
-    .step { display:none; }
-    .step.active { display:block; }
-    .buttons { display:flex; justify-content:space-between; margin-top:1rem; }
-    .buttons button { padding:.6rem 1.2rem; border:none; border-radius:4px; cursor:pointer; }
-    .buttons .prev { background:#ccc; }
-    .buttons .next { background:#d92b2b; color:#fff; }
-    label { display:block; margin:1rem 0; }
-    input, textarea { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:4px; }
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      max-width: 600px;
+      margin: 4rem auto;
+      padding: 0 1rem;
+    }
+    header {
+      margin-bottom: 1rem;
+    }
+    .logo img {
+      max-width: 200px;
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      margin: -1px; padding: 0; border: 0;
+      clip: rect(0 0 0 0); overflow: hidden;
+      white-space: nowrap;
+    }
+    h1 {
+      color: #d92b2b;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+    p.subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+    .roles {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    @media(min-width:480px) {
+      .roles {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+    .roles a {
+      flex: 1;
+      text-decoration: none;
+      padding: 1rem;
+      border: 2px solid #d92b2b;
+      border-radius: 6px;
+      color: #d92b2b;
+      font-weight: bold;
+      transition: background .2s, color .2s;
+    }
+    .roles a:hover {
+      background: #d92b2b;
+      color: white;
+    }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    footer a {
+      color: #666;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <header>
-    <img src="/images/logo.png" alt="Logotipo QuejaYA.pe">
+    <a href="/" class="logo">
+      <img src="/images/logo.png" alt="QuejaYA.pe">
+      <span class="visually-hidden">QuejaYA.pe</span>
+    </a>
   </header>
-  <h1 style="text-align:center;color:#d92b2b;">QuejaYA.pe</h1>
-  <p style="text-align:center;">Te tomará menos de 3 minutos y nosotros nos encargamos del resto.</p>
 
-  <form name="complaints" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-    <input type="hidden" name="form-name" value="complaints">
-    <p style="display:none"><label>No rellenes esto si eres humano: <input name="bot-field"></label></p>
+  <h1>¡Te escuchamos!</h1>
+  <p class="subtitle">Gestiona tus reclamos de forma fácil y rápida.</p>
 
-    <div class="wizard">
-      <!-- Ilustración -->
-      <div class="wizard__illustration">
-        <img src="/images/illustration.png" alt="Ilustración usuario con smartphone">
-      </div>
+  <div class="roles">
+    <a href="/consumer/index.html">Soy consumidor</a>
+    <a href="/dashboard.html">Soy empresa</a>
+  </div>
 
-      <!-- Pasos -->
-      <div class="wizard__steps">
-        <div class="progress">
-          <span id="step-indicator">Paso 1 de 3</span>
-          <div class="progress__bar"><div id="progress-fill" class="progress__fill"></div></div>
-        </div>
-
-        <!-- Step 1 -->
-        <div id="step-1" class="step active">
-          <h2>Datos del proveedor</h2>
-          <label>Razón social:<input type="text" name="provider_name" required></label>
-          <label>RUC:<input type="text" name="provider_ruc" required></label>
-          <label>Dirección:<input type="text" name="provider_address" required></label>
-        </div>
-
-        <!-- Step 2 -->
-        <div id="step-2" class="step">
-          <h2>Datos del consumidor</h2>
-          <label>Nombre completo:<input type="text" name="consumer_name" required></label>
-          <label>DNI:<input type="text" name="consumer_id" required></label>
-          <label>Teléfono:<input type="tel" name="consumer_phone" required></label>
-          <label>Correo electrónico:<input type="email" name="consumer_email" required></label>
-        </div>
-
-        <!-- Step 3 -->
-        <div id="step-3" class="step">
-          <h2>Detalle del reclamo</h2>
-          <label>Producto/Servicio:<input type="text" name="product_service" required></label>
-          <label>Monto (S/):<input type="number" name="amount" step="0.01" required></label>
-          <label>Título:<input type="text" name="title" required></label>
-          <label>Descripción:<textarea name="description" rows="3" required></textarea></label>
-          <label>Pedido concreto:<input type="text" name="specific_request" required></label>
-        </div>
-
-        <!-- Botones -->
-        <div class="buttons">
-          <button type="button" class="prev" id="btn-prev" disabled>Anterior</button>
-          <button type="button" class="next" id="btn-next">Siguiente</button>
-        </div>
-      </div>
-    </div>
-  </form>
-
-  <script>
-    const totalSteps = 3, forms = [];
-    let current = 1;
-    const updateWizard = () => {
-      for(let i=1;i<=totalSteps;i++){
-        forms[i].classList.toggle('active', i===current);
-      }
-      document.getElementById('step-indicator').innerText = `Paso ${current} de ${totalSteps}`;
-      document.getElementById('progress-fill').style.width = `${(current/totalSteps)*100}%`;
-      document.getElementById('btn-prev').disabled = current===1;
-      document.getElementById('btn-next').innerText = current<totalSteps ? 'Siguiente' : 'Enviar reclamo';
-    };
-    document.addEventListener('DOMContentLoaded', ()=>{
-      for(let i=1;i<=totalSteps;i++){
-        forms[i] = document.getElementById(`step-${i}`);
-      }
-      document.getElementById('btn-next').addEventListener('click', ()=>{
-        if(current<totalSteps){
-          current++; updateWizard();
-        } else {
-          document.forms['complaints'].submit();
-        }
-      });
-      document.getElementById('btn-prev').addEventListener('click', ()=>{
-        if(current>1){
-          current--; updateWizard();
-        }
-      });
-    });
-  </script>
+  <footer>
+    <a href="/como-funciona.html">Cómo funciona</a> ·
+    <a href="/contacto.html">Contacto</a>
+  </footer>
 </body>
 </html>

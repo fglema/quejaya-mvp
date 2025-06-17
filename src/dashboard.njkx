@@ -1,0 +1,15 @@
+---
+permalink: "/dashboard.html"
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>QuejaYA.pe – Dashboard PyME</title>
+  <!-- (Aquí va tu <style> y <body> del prototipo) -->
+</head>
+<body>
+  <!-- Copia/pega el <header>, cards, filtros, tabla y paginación -->
+</body>
+</html>
+
