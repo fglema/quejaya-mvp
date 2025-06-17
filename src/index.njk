@@ -6,7 +6,7 @@ permalink: "/index.html"
 <head>
   <meta charset="UTF-8">
   <title>QuejaYA.pe</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
       font-family: sans-serif;
@@ -18,11 +18,6 @@ permalink: "/index.html"
     }
     header { margin-bottom: 1rem; }
     .logo img { max-width: 200px; }
-    .visually-hidden {
-      position: absolute; width:1px; height:1px;
-      margin:-1px; padding:0; border:0;
-      clip:rect(0,0,0,0); overflow:hidden; white-space:nowrap;
-    }
     h1 {
       color: #d92b2b;
       font-size: 2rem;
@@ -39,7 +34,10 @@ permalink: "/index.html"
       gap: 1rem;
     }
     @media (min-width:480px) {
-      .roles { flex-direction: row; justify-content: center; }
+      .roles {
+        flex-direction: row;
+        justify-content: center;
+      }
     }
     .roles button {
       flex: 1;
@@ -58,7 +56,7 @@ permalink: "/index.html"
     }
     .identity-btn {
       margin-top: 1.5rem;
-      font-size: .9rem;
+      font-size: 0.9rem;
       background: none;
       border: none;
       color: #666;
@@ -73,7 +71,6 @@ permalink: "/index.html"
   <header>
     <a href="/" class="logo">
       <img src="/images/logo.png" alt="QuejaYA.pe">
-      <span class="visually-hidden">QuejaYA.pe</span>
     </a>
   </header>
 
@@ -86,40 +83,22 @@ permalink: "/index.html"
   </div>
   <button class="identity-btn" id="btn-signup">¿No tienes cuenta? Regístrate</button>
 
-  <!-- 1) Primero carga el widget -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
-    // 2) Espera a DOMReady
     document.addEventListener('DOMContentLoaded', () => {
-      // 3) Inicializa Identity
-      const netlifyIdentity = window.netlifyIdentity;
-      if (!netlifyIdentity) {
-        console.error('Netlify Identity not found. Have you enabled it in the dashboard?');
-        return;
-      }
-      netlifyIdentity.on('init', user => console.log('Identity initialized, user:', user));
-      netlifyIdentity.init();
-
-      // 4) Helper para login + redirect
-      function ensureAuthAndRedirect(path) {
-        const user = netlifyIdentity.currentUser();
-        if (user) {
-          window.location.href = path;
-        } else {
-          netlifyIdentity.open('login');
-          netlifyIdentity.on('login', () => window.location.href = path);
-        }
-      }
-
-      // 5) Asocia botones
-      document.getElementById('btn-consumer')
-        .addEventListener('click', () => ensureAuthAndRedirect('/consumer/index.html'));
-      document.getElementById('btn-company')
-        .addEventListener('click', () => ensureAuthAndRedirect('/dashboard.html'));
-      document.getElementById('btn-signup')
-        .addEventListener('click', () => netlifyIdentity.open('signup'));
+      document.getElementById('btn-consumer').onclick = () => {
+        location.href =
+          '/.netlify/functions/auth/login?redirect=' +
+          encodeURIComponent('/consumer/index.html');
+      };
+      document.getElementById('btn-company').onclick = () => {
+        location.href =
+          '/.netlify/functions/auth/login?redirect=' +
+          encodeURIComponent('/dashboard.html');
+      };
+      document.getElementById('btn-signup').onclick = () => {
+        location.href = '/.netlify/functions/auth/login?screen_hint=signup';
+      };
     });
   </script>
 </body>
 </html>
-
