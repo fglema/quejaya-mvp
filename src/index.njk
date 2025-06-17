@@ -16,23 +16,17 @@ permalink: "/index.html"
       padding: 0 1rem;
       background: #f7f7f7;
     }
-    header {
-      margin-bottom: 1rem;
-    }
-    .logo img {
-      max-width: 200px;
-    }
+    header { margin-bottom: 1rem; }
+    .logo img { max-width: 200px; }
     .visually-hidden {
-      position: absolute;
-      width: 1px; height: 1px;
-      margin: -1px; padding: 0; border: 0;
-      clip: rect(0,0,0,0); overflow: hidden;
-      white-space: nowrap;
+      position: absolute; width:1px; height:1px;
+      margin:-1px; padding:0; border:0;
+      clip:rect(0,0,0,0); overflow:hidden; white-space:nowrap;
     }
     h1 {
       color: #d92b2b;
       font-size: 2rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: .5rem;
     }
     p.subtitle {
       color: #555;
@@ -44,11 +38,8 @@ permalink: "/index.html"
       flex-direction: column;
       gap: 1rem;
     }
-    @media (min-width: 480px) {
-      .roles {
-        flex-direction: row;
-        justify-content: center;
-      }
+    @media (min-width:480px) {
+      .roles { flex-direction: row; justify-content: center; }
     }
     .roles button {
       flex: 1;
@@ -67,7 +58,7 @@ permalink: "/index.html"
     }
     .identity-btn {
       margin-top: 1.5rem;
-      font-size: 0.9rem;
+      font-size: .9rem;
       background: none;
       border: none;
       color: #666;
@@ -93,36 +84,42 @@ permalink: "/index.html"
     <button id="btn-consumer">Soy consumidor</button>
     <button id="btn-company">Soy empresa</button>
   </div>
-
   <button class="identity-btn" id="btn-signup">¿No tienes cuenta? Regístrate</button>
 
-  <!-- Netlify Identity Widget -->
+  <!-- 1) Primero carga el widget -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
+    // 2) Espera a DOMReady
     document.addEventListener('DOMContentLoaded', () => {
-      const ni = window.netlifyIdentity.init();
+      // 3) Inicializa Identity
+      const netlifyIdentity = window.netlifyIdentity;
+      if (!netlifyIdentity) {
+        console.error('Netlify Identity not found. Have you enabled it in the dashboard?');
+        return;
+      }
+      netlifyIdentity.on('init', user => console.log('Identity initialized, user:', user));
+      netlifyIdentity.init();
 
+      // 4) Helper para login + redirect
       function ensureAuthAndRedirect(path) {
-        const user = ni.currentUser();
+        const user = netlifyIdentity.currentUser();
         if (user) {
           window.location.href = path;
         } else {
-          ni.open('login');
-          ni.on('login', () => {
-            window.location.href = path;
-          });
+          netlifyIdentity.open('login');
+          netlifyIdentity.on('login', () => window.location.href = path);
         }
       }
 
+      // 5) Asocia botones
       document.getElementById('btn-consumer')
         .addEventListener('click', () => ensureAuthAndRedirect('/consumer/index.html'));
-
       document.getElementById('btn-company')
         .addEventListener('click', () => ensureAuthAndRedirect('/dashboard.html'));
-
       document.getElementById('btn-signup')
-        .addEventListener('click', () => ni.open('signup'));
+        .addEventListener('click', () => netlifyIdentity.open('signup'));
     });
   </script>
 </body>
 </html>
+
