@@ -16,29 +16,35 @@ permalink: "/index.html"
       padding: 0 1rem;
       background: #f7f7f7;
     }
-    header { margin-bottom: 1rem; }
-    .logo img { max-width: 200px; }
+    header {
+      margin-bottom: 1rem;
+    }
+    .logo img {
+      max-width: 200px;
+    }
     .visually-hidden {
-      position: absolute; width: 1px; height: 1px;
+      position: absolute;
+      width: 1px; height: 1px;
       margin: -1px; padding: 0; border: 0;
-      clip: rect(0,0,0,0); overflow: hidden; white-space: nowrap;
+      clip: rect(0,0,0,0); overflow: hidden;
+      white-space: nowrap;
     }
     h1 {
       color: #d92b2b;
-      margin-bottom: .5rem;
       font-size: 2rem;
+      margin-bottom: 0.5rem;
     }
     p.subtitle {
+      color: #555;
       font-size: 1.1rem;
       margin-bottom: 2rem;
-      color: #555;
     }
     .roles {
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
-    @media (min-width:480px) {
+    @media (min-width: 480px) {
       .roles {
         flex-direction: row;
         justify-content: center;
@@ -61,13 +67,15 @@ permalink: "/index.html"
     }
     .identity-btn {
       margin-top: 1.5rem;
-      font-size: .9rem;
+      font-size: 0.9rem;
       background: none;
       border: none;
       color: #666;
       cursor: pointer;
     }
-    .identity-btn:hover { text-decoration: underline; }
+    .identity-btn:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -91,22 +99,30 @@ permalink: "/index.html"
   <!-- Netlify Identity Widget -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
-    const ni = netlifyIdentity.init();
-    function ensureAuthAndRedirect(path) {
-      const user = ni.currentUser();
-      if (user) {
-        location.href = path;
-      } else {
-        ni.open('login');
-        ni.on('login', () => location.href = path);
+    document.addEventListener('DOMContentLoaded', () => {
+      const ni = window.netlifyIdentity.init();
+
+      function ensureAuthAndRedirect(path) {
+        const user = ni.currentUser();
+        if (user) {
+          window.location.href = path;
+        } else {
+          ni.open('login');
+          ni.on('login', () => {
+            window.location.href = path;
+          });
+        }
       }
-    }
-    document.getElementById('btn-consumer')
-      .addEventListener('click', () => ensureAuthAndRedirect('/consumer/index.html'));
-    document.getElementById('btn-company')
-      .addEventListener('click', () => ensureAuthAndRedirect('/dashboard.html'));
-    document.getElementById('btn-signup')
-      .addEventListener('click', () => ni.open('signup'));
+
+      document.getElementById('btn-consumer')
+        .addEventListener('click', () => ensureAuthAndRedirect('/consumer/index.html'));
+
+      document.getElementById('btn-company')
+        .addEventListener('click', () => ensureAuthAndRedirect('/dashboard.html'));
+
+      document.getElementById('btn-signup')
+        .addEventListener('click', () => ni.open('signup'));
+    });
   </script>
 </body>
 </html>
